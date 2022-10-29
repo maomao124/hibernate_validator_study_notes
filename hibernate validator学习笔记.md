@@ -1,3 +1,17 @@
+[TOC]
+
+---
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -93,7 +107,7 @@ hibernate-validator提供的校验方式为在类的属性上加入相应的注�
 
 
 
-第一步：创建工程hibernate_validator_demo
+### 第一步：创建工程hibernate_validator_demo
 
 
 
@@ -103,7 +117,7 @@ hibernate-validator提供的校验方式为在类的属性上加入相应的注�
 
 
 
-第二步：修改pom文件
+### 第二步：修改pom文件
 
 
 
@@ -166,7 +180,7 @@ hibernate-validator提供的校验方式为在类的属性上加入相应的注�
 
 
 
-第三步：创建User类
+### 第三步：创建User类
 
 
 
@@ -219,7 +233,7 @@ public class User
 
 
 
-第四步：添加对应的注解
+### 第四步：添加对应的注解
 
 ```java
 package mao.use.entity;
@@ -316,7 +330,7 @@ public class User
 
 
 
-第五步：创建UserController
+### 第五步：创建UserController
 
 
 
@@ -375,7 +389,7 @@ public class UserController
 
 
 
-第六步：启动程序
+### 第六步：启动程序
 
 
 
@@ -403,7 +417,7 @@ public class UserController
 
 
 
-第七步：访问
+### 第七步：访问
 
 
 
@@ -562,7 +576,7 @@ javax.validation.ConstraintViolationException: delete.id: id不能为空
 
 **为了能够在页面友好的显示数据校验结果，可以通过全局异常处理来解决**
 
-第八步：创建全局异常处理类
+### 第八步：创建全局异常处理类
 
 
 
@@ -633,13 +647,13 @@ public class ExceptionConfiguration
 
 
 
-第九步：重启程序
+### 第九步：重启程序
 
 
 
 
 
-第十步：访问
+### 第十步：访问
 
 
 
@@ -677,9 +691,7 @@ javax.validation.ConstraintViolationException: delete.id: id不能为空
 
 
 
-第十一步：创建ValidatorConfig类，指定校验时使用快速失败返回模式
-
-
+### 第十一步：创建ValidatorConfig类，指定校验时使用快速失败返回模式
 
 ```java
 package mao.hibernate_validator_demo.config;
@@ -748,7 +760,7 @@ public class ValidatorConfig
 
 
 
-第十二步：创建注解EnableFormValidator用于控制快速失败返回模式的开启
+### 第十二步：创建注解EnableFormValidator用于控制快速失败返回模式的开启
 
 
 
@@ -777,7 +789,7 @@ public @interface EnableFormValidator
 
 
 
-第十三步：在启动类上加入EnableFormValidator注解，开启快速失败返回模式
+### 第十三步：在启动类上加入EnableFormValidator注解，开启快速失败返回模式
 
 
 
@@ -835,7 +847,7 @@ public class HibernateValidatorDemoApplication
 
 
 
-第一步：初始化项目
+#### 第一步：初始化项目
 
 
 
@@ -873,7 +885,7 @@ public class HibernateValidatorDemoApplication
 
 
 
-第二步：修改项目的pom文件
+#### 第二步：修改项目的pom文件
 
 
 
@@ -1050,7 +1062,7 @@ public class HibernateValidatorDemoApplication
 
 
 
-第三步：拷贝之前config包下的所有类到此子工程中
+#### 第三步：拷贝之前config包下的所有类到此子工程中
 
 
 
@@ -1066,7 +1078,7 @@ public class HibernateValidatorDemoApplication
 
 ### 使用
 
-第一步：导入tools-validator的依赖
+#### 第一步：导入tools-validator的依赖
 
 
 
@@ -1128,7 +1140,7 @@ public class HibernateValidatorDemoApplication
 
 
 
-第二步：拷贝之前的entity包和controller包到此项目中
+#### 第二步：拷贝之前的entity包和controller包到此项目中
 
 
 
@@ -1138,7 +1150,7 @@ public class HibernateValidatorDemoApplication
 
 
 
-第三步：在启动类上添加对应的注解
+#### 第三步：在启动类上添加对应的注解
 
 
 
@@ -1166,7 +1178,7 @@ public class UseApplication
 
 
 
-第四步：启动程序
+#### 第四步：启动程序
 
 
 
@@ -1199,7 +1211,7 @@ public class UseApplication
 
 
 
-第五步：访问
+#### 第五步：访问
 
 
 
@@ -1271,3 +1283,20 @@ http://localhost:8080/save
 
 
 
+
+
+
+
+
+
+---
+
+end
+
+---
+
+by mao
+
+2022  10  29
+
+---
