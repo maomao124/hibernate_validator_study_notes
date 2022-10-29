@@ -222,7 +222,7 @@ public class User
 第四步：添加对应的注解
 
 ```java
-package mao.hibernate_validator_demo.entity;
+package mao.use.entity;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -267,8 +267,47 @@ public class User
     @Pattern(regexp = "[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\\\.[a-zA-Z0-9_-]+)+$", message = "邮箱格式不正确")
     private String email;
 
+    public Integer getId()
+    {
+        return id;
+    }
 
+    public void setId(Integer id)
+    {
+        this.id = id;
+    }
+
+    public String getUserName()
+    {
+        return userName;
+    }
+
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
+
+    public Integer getAge()
+    {
+        return age;
+    }
+
+    public void setAge(Integer age)
+    {
+        this.age = age;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
 }
+
 ```
 
 
@@ -778,7 +817,457 @@ public class HibernateValidatorDemoApplication
 
 
 
-## 自定义spring boot starter
+
+
+
+
+
+
+
+
+
+
+
+
+## 封装成一个模块
+
+### 封装
+
+
+
+第一步：初始化项目
+
+
+
+创建父工程hibernate_validator_demo2
+
+
+
+![image-20221029133736650](img/hibernate validator学习笔记/image-20221029133736650.png)
+
+
+
+
+
+
+
+创建子工程tools-validator
+
+
+
+![image-20221029134332382](img/hibernate validator学习笔记/image-20221029134332382.png)
+
+
+
+
+
+创建子工程use
+
+
+
+![image-20221029134807520](img/hibernate validator学习笔记/image-20221029134807520.png)
+
+
+
+
+
+
+
+第二步：修改项目的pom文件
+
+
+
+
+
+父工程的pom文件：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>mao</groupId>
+    <artifactId>hibernate_validator_demo2</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>hibernate_validator_demo2</name>
+    <description>hibernate_validator_demo2</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
+    <modules>
+        <module>tools-validator</module>
+        <module>use</module>
+    </modules>
+
+    <dependencies>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+```
+
+
+
+
+
+
+
+子工程tools-validator的pom文件：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>hibernate_validator_demo2</artifactId>
+        <groupId>mao</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>tools-validator</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>tools-validator</name>
+    <description>tools-validator</description>
+
+    <properties>
+
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.2.5.Final</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+```
+
+
+
+
+
+
+
+子工程use的pom文件：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>hibernate_validator_demo2</artifactId>
+        <groupId>mao</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>use</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>use</name>
+    <description>use</description>
+
+    <properties>
+
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+```
+
+
+
+
+
+
+
+
+
+第三步：拷贝之前config包下的所有类到此子工程中
+
+
+
+![image-20221029135542272](img/hibernate validator学习笔记/image-20221029135542272.png)
+
+
+
+
+
+
+
+
+
+### 使用
+
+第一步：导入tools-validator的依赖
+
+
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>hibernate_validator_demo2</artifactId>
+        <groupId>mao</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>use</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>use</name>
+    <description>use</description>
+
+    <properties>
+
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mao</groupId>
+            <artifactId>tools-validator</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+```
+
+
+
+
+
+
+
+第二步：拷贝之前的entity包和controller包到此项目中
+
+
+
+![image-20221029135853511](img/hibernate validator学习笔记/image-20221029135853511.png)
+
+
+
+
+
+第三步：在启动类上添加对应的注解
+
+
+
+```java
+package mao.use;
+
+import mao.toolsvalidator.config.EnableFormValidator;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableFormValidator
+public class UseApplication
+{
+
+    public static void main(String[] args)
+    {
+        SpringApplication.run(UseApplication.class, args);
+    }
+
+}
+```
+
+
+
+
+
+第四步：启动程序
+
+
+
+```sh
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.1)
+
+2022-10-29 14:00:05.191  INFO 14504 --- [           main] mao.use.UseApplication                   : Starting UseApplication using Java 16.0.2 on mao with PID 14504 (H:\程序\大四上期\demo\hibernate_validator_demo2\use\target\classes started by mao in H:\程序\大四上期\demo\hibernate_validator_demo2)
+2022-10-29 14:00:05.193  INFO 14504 --- [           main] mao.use.UseApplication                   : No active profile set, falling back to 1 default profile: "default"
+2022-10-29 14:00:05.672  INFO 14504 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'mao.toolsvalidator.config.ValidatorConfig' of type [mao.toolsvalidator.config.ValidatorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-29 14:00:05.871  INFO 14504 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-29 14:00:05.878  INFO 14504 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-29 14:00:05.879  INFO 14504 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-10-29 14:00:05.953  INFO 14504 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-10-29 14:00:05.953  INFO 14504 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 727 ms
+2022-10-29 14:00:06.215  INFO 14504 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-29 14:00:06.224  INFO 14504 --- [           main] mao.use.UseApplication                   : Started UseApplication in 1.285 seconds (JVM running for 1.756)
+2022-10-29 14:00:18.298  INFO 14504 --- [nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-10-29 14:00:18.298  INFO 14504 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-10-29 14:00:18.299  INFO 14504 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+```
+
+
+
+
+
+第五步：访问
+
+
+
+http://localhost:8080/delete
+
+
+
+![image-20221029140133484](img/hibernate validator学习笔记/image-20221029140133484.png)
+
+
+
+
+
+```sh
+2022-10-29 14:01:31.769 ERROR 14504 --- [nio-8080-exec-6] m.use.controller.ExceptionConfiguration  : 异常：
+
+javax.validation.ConstraintViolationException: delete.id: id不能为空
+	at org.springframework.validation.beanvalidation.MethodValidationInterceptor.invoke(MethodValidationInterceptor.java:120) ~[spring-context-5.3.21.jar:5.3.21]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.21.jar:5.3.21]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763) ~[spring-aop-5.3.21.jar:5.3.21]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708) ~[spring-aop-5.3.21.jar:5.3.21]
+	at mao.use.controller.UserController$$EnhancerBySpringCGLIB$$dedeecd2.delete(<generated>) ~[classes/:na]
+...
+...
+...
+```
+
+
+
+
+
+
+
+http://localhost:8080/save
+
+
+
+![image-20221029140701329](img/hibernate validator学习笔记/image-20221029140701329.png)
+
+
+
+
+
+![image-20221029140740447](img/hibernate validator学习笔记/image-20221029140740447.png)
+
+
+
+![image-20221029140753981](img/hibernate validator学习笔记/image-20221029140753981.png)
+
+
+
+
+
+![image-20221029140819274](img/hibernate validator学习笔记/image-20221029140819274.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
